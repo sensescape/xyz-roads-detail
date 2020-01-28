@@ -1,0 +1,1212 @@
+# Author: Geraldine Sarmiento
+
+cameras:
+    camera1:
+        type: perspective
+
+global:
+    # default order for basemap features
+    feature_order: function() { return feature.sort_rank; }
+    
+    # Order functions
+    order_add_9: function () { return (feature.sort_rank * 20 + 9); }
+    order_add_8: function () { return (feature.sort_rank * 20 + 8); }
+    order_add_7: function () { return (feature.sort_rank * 20 + 7); }
+    order_add_6: function () { return (feature.sort_rank * 20 + 6); }
+    order_add_5: function () { return (feature.sort_rank * 20 + 5); }
+    order_add_4: function () { return (feature.sort_rank * 20 + 4); }
+    order_add_3: function () { return (feature.sort_rank * 20 + 3); }
+    order_add_2: function () { return (feature.sort_rank * 20 + 2); }
+    order_add_1: function () { return (feature.sort_rank * 20 + 1); }
+    order: function () { return (feature.sort_rank * 20) || 0; }
+    order_sub_1: function () { return (feature.sort_rank * 20 - 1); }
+    order_sub_2: function () { return (feature.sort_rank * 20 - 2); }
+    order_sub_3: function () { return (feature.sort_rank * 20 - 3); }
+    order_sub_4: function () { return (feature.sort_rank * 20 - 4); }
+    order_sub_5: function () { return (feature.sort_rank * 20 - 5); }
+    order_sub_6: function () { return (feature.sort_rank * 20 - 6); }
+    order_sub_7: function () { return (feature.sort_rank * 20 - 7); }
+    order_sub_8: function () { return (feature.sort_rank * 20 - 8); }
+    order_sub_9: function () { return (feature.sort_rank * 20 - 9); }
+
+    building_extrude_height: |
+        function () { return feature.height > 16 || $zoom >= 16; }
+
+    # Sign up for a Mapzen API key to enjoy higher rate limits
+    # https://mapzen.com/documentation/overview/#developer-accounts-and-api-keys
+    sdk_api_key: '3eqm2_bfTNGZ85ar20fVyA'     # set this value to your Mapzen API key
+
+    black_color:                  [1.000,1.000,1.000]
+
+    roads_text_fill:              [0.250,0.250,0.250]
+    roads_text_stroke:            [0.820,0.812,0.812]
+
+    text_font_family: 'Open Sans'
+
+    #ux/ui
+    ux_language: false             # l10n language code, trusting OSM in v0.10 tiles, fixed in v1.0 tiles
+    ux_language_fallback: false    # l10n language code, trusting OSM in v0.10 tiles, fixed in v1.0 tiles
+    ux_language_text_source: |
+        function() {
+            // if a ux_langauge has been defined use that, else if there is feature name in the fallback_ux_language then use that, else use the feature's default name in the local language
+            return (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature.name;
+        }
+    ux_language_text_source_left: |
+        function() {
+            // if a ux_langauge has been defined use that, else if there is feature name in the fallback_ux_language then use that, else use the feature's default name in the local language
+            return (global.ux_language && feature['name:left:'+global.ux_language]) || (global.ux_language_fallback && feature['name:left:'+global.ux_language_fallback]) || feature['name:left'];
+        }
+    ux_language_text_source_right: |
+        function() {
+            // if a ux_langauge has been defined use that, else if there is feature name in the fallback_ux_language then use that, else use the feature's default name in the local language
+            return (global.ux_language && feature['name:right:'+global.ux_language]) || (global.ux_language_fallback && feature['name:right:'+global.ux_language_fallback]) || feature['name:right'];
+        }
+    ux_language_text_source_boundary_lines_left_right:
+        left: global.ux_language_text_source_left
+        right: global.ux_language_text_source_right
+    ux_language_text_source_boundary_lines: |
+        function() {
+           var right = (global.ux_language && feature['name:right:'+global.ux_language]) || (global.ux_language_fallback && feature['name:right:'+global.ux_language_fallback]) || feature['name:right'];
+           var left = (global.ux_language && feature['name:left:'+global.ux_language]) || (global.ux_language_fallback && feature['name:left:'+global.ux_language_fallback]) || feature['name:left'];
+           if( right && left ) {
+               //if( right.includes(' ') || left.includes(' ') ) {
+                   return left + " - " + right;
+               //} else {
+               //    return right + '\n' + left;
+               //}
+           } else {
+               return (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature.name;
+           }
+        }
+    ux_language_text_source_short: |
+        function() {
+            return (global.ux_language && feature['name:short:'+global.ux_language]) || (global.ux_language_fallback && feature['name:short:'+global.ux_language_fallback]) || feature['name:short'];
+        }
+    ux_language_text_source_short_proxy_name: |
+        function() {
+            var name  = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'] || '';
+            var short = (global.ux_language && feature['name:short:'+global.ux_language]) || (global.ux_language_fallback && feature['name:short:'+global.ux_language_fallback]) || feature['name:short'];
+            return short ? name : '';
+        }
+    ux_language_text_source_abbreviation: |
+        function() {
+            var name  = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'] || '';
+            var abbrev = (global.ux_language && feature['name:abbreviation:'+global.ux_language]) || (global.ux_language_fallback && feature['name:abbreviation:'+global.ux_language_fallback]) || feature['name:abbreviation'];
+            return abbrev || name;
+        }
+    ux_language_text_source_iata: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'];
+            if(feature.iata) {
+                if (name) {
+                    return name + ' (' + feature.iata + ')';
+                }
+                else {
+                    return feature.iata;
+                }
+            } else {
+                return name;
+            }
+        }
+    ux_language_text_source_ocean: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'] || '';
+            name = name.split(' ').join('\n');
+            return name.split('').join('  ');
+        }
+    ux_language_text_source_sea: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'] || '';
+            name = name.split(' ').join('\n');
+            return name.split('').join(' ');
+        }
+    ux_language_text_source_continent_stacked_only: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'] || '';
+            return name.split(' ').join('\n');
+        }
+    ux_language_text_source_continent: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'] || '';
+            name = name.split(' ').join('\n');
+            return name.split('').join(' ');
+        }
+    ux_language_text_source_road_ref_and_name: |
+        function() {
+            // if a ux_langauge has been defined use that, else if there is feature name in the fallback_ux_language then use that, else use the feature's default name in the local language
+            return (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature.name;
+
+            /*
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'];
+            if(feature.ref && name) {
+                return (feature.ref + ' ' + name);
+            } else {
+                return name;
+            }
+            */
+        }
+    ux_language_text_source_road_ref_and_name_short: |
+        function() {
+            // if a ux_langauge has been defined use that, else if there is feature name in the fallback_ux_language then use that, else use the feature's default name in the local language
+            return (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature.name;
+
+            /*
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'];
+            if (feature.ref && (feature.ref.length < 6) && name) {
+                return feature.ref + ' ' + name;
+            } else {
+                return name;
+            }
+            */
+        }
+    ux_language_text_source_piste_advanced: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'];
+            return name ? ('◆ ' + name) : '◆';
+        }
+    ux_language_text_source_piste_expert: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'];
+            return name ? ('◆◆ ' + name) : '◆◆';
+        }
+    ux_language_text_source_building_and_address: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'];
+            if (name && feature.addr_housenumber) {
+                return name + '\n' + feature.addr_housenumber;
+            } else {
+                return name;
+            }
+        }
+
+# Fonts
+fonts:
+    Open Sans:
+        - weight: 300 # Light
+          url: fonts/OpenSans-Light.woff
+        - weight: normal # Regular
+          url: fonts/OpenSans-Regular.woff
+        - weight: normal # Regular
+          style: italic
+          url: fonts/OpenSans-Italic.woff
+        - weight: 600 # Semi Bold
+          url: fonts/OpenSans-Semibold.woff
+        - weight: 600 # Semi Bold
+          style: italic
+          url: fonts/OpenSans-SemiboldItalic.woff
+        - weight: bold
+          url: fonts/OpenSans-Bold.woff
+
+
+scene:
+    background:
+        color: [1.000,1.000,1.000]
+
+sources:
+    # mapzen:
+    #     type: MVT
+    #     # url:  https://tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt
+    #     url: https://xyz.api.here.com/tiles/osmbase/512/all/{z}/{x}/{y}.mvt
+    #     url_params:
+    #         api_key: JJiaZE63TZObzPrmx0TQkw
+    #     tile_size: 512
+    #     max_zoom: 16
+
+    mapzen:
+        type: MVT
+        url: https://tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt
+        url_params:
+            api_key: global.sdk_api_key
+        rasters: [normals-elevation]
+        tile_size: 512
+        max_zoom: 6
+    normals-elevation:
+        type: Raster
+        url: https://tile.nextzen.org/tilezen/terrain/v1/512/normal/{z}/{x}/{y}.png
+        url_params:
+            api_key: global.sdk_api_key
+        tile_size: 512
+        max_zoom: 15
+
+    xyz-osm:
+        type: MVT
+        url: https://xyz.api.here.com/tiles/osmbase/256/all/{z}/{x}/{y}.mvt
+
+layers:
+    earth:
+        data: { source: mapzen, layer: earth }
+        draw:
+            polygons:
+                order: global.feature_order
+                color: [1.000,1.000,1.000]
+
+    water:
+        data: { source: mapzen, layer: water }
+        draw:
+            polygons:
+                order: global.feature_order
+                color: [1.000,1.000,1.000]
+
+        lakes:
+            filter:
+                all:
+                    - kind: [ocean, lake, water, riverbank, reservoir, swimming_pool]
+                any:
+                    # limit show smaller landuse areas to higher zooms
+                    - { $zoom: [1],  area: { min: 10000000000 } }
+                    - { $zoom: [2],  area: { min: 7000000000 } }
+                    # some weird natural earth scale set transition
+                    - { $zoom: [3],  area: { min: 5000000000 } }
+                    - { $zoom: [4],  area: { min: 300000000 } }
+                    - { $zoom: [5],  area: { min: 50000000 } }
+                    - { $zoom: [6],  area: { min: 50000000 } }
+                    - { $zoom: [7],  area: { min: 50000000 } }
+                    - { $zoom: [8],  area: { min: 50000000 } }
+                    - { $zoom: [9],  area: { min: 15000000 } }
+                    - { $zoom: [10], area: { min: 4000000 } }
+                    - { $zoom: [11], area: { min: 1000000 } }
+                    - { $zoom: [12], area: { min: 250000 } }
+                    - { $zoom: [13], area: { min: 150000 } }
+                    - { $zoom: [14], area: { min: 40000 } }
+                    - { $zoom: { min: 15 } }
+            draw:
+                polygons:
+                    color: [1.000,1.000,1.000]
+
+        other-water-areas:
+            filter: { not: { kind: [ocean, lake, water, reservoir] }, $zoom: { min: 11 }, area: { min: 100 } }
+            draw:
+                polygons:
+                    color: [1.000,1.000,1.000]
+
+        playas:
+            filter: { kind: playa }
+            draw:
+                polygons:
+                    visible: true
+                    order: global.feature_order
+                    color: [1.000,1.000,1.000]
+
+        water-boundary-ocean:
+            filter: { boundary: true, kind: ocean, $zoom: { min: 1 } }
+            draw:
+                lines:
+                    visible: true
+                    order: global.feature_order
+                    color: [0.000,0.000,0.000]
+                    width: 2px
+                    join: round
+
+        water_boundaries-not-ocean:
+            filter:
+                all:
+                    - boundary: true
+                    - not: { kind: ocean }
+                    - $zoom: { min: 8 }
+                any:
+                    # limit show smaller landuse areas to higher zooms
+                    - { $zoom: [1],  area: { min: 10000000000 } }
+                    - { $zoom: [2],  area: { min: 7000000000 } }
+                    # some weird natural earth scale set transition
+                    - { $zoom: [3],  area: { min: 5000000000 } }
+                    - { $zoom: [4],  area: { min: 300000000 } }
+                    - { $zoom: [5],  area: { min: 50000000 } }
+                    - { $zoom: [6],  area: { min: 50000000 } }
+                    - { $zoom: [7],  area: { min: 50000000 } }
+                    - { $zoom: [8],  area: { min: 50000000 } }
+                    - { $zoom: [9],  area: { min: 15000000 } }
+                    - { $zoom: [10], area: { min: 4000000 } }
+                    - { $zoom: [11], area: { min: 1000000 } }
+                    - { $zoom: [12], area: { min: 250000 } }
+                    - { $zoom: [13], area: { min: 150000 } }
+                    - { $zoom: [14], area: { min: 40000 } }
+                    - { $zoom: { min: 15 } }
+            draw:
+                lines:
+                    visible: true
+                    order: global.feature_order
+                    color: [0.000,0.000,0.000]
+                    width: [[6, 0.75px], [10, 2px]]
+                    join: round
+            riverbank:
+                # river boundaries like the thames in london, la seine in paris
+                filter: { kind: riverbank }
+                draw:
+                    lines:
+                        visible: true
+                        color: [0.000,0.000,0.000]
+                        width: [[9, 0.5px], [15, 2px]]
+        river:
+            #river center lines, not boundaries for polygons
+            filter: { kind: [river,canal,stream,dam,ditch,drain], $zoom: { min: 11 }, not: { is_tunnel: true } }
+            draw:
+                lines:
+                    visible: true
+                    order: global.order_sub_1
+                    color: [0.000,0.000,0.000]
+                    width: [[11, 0.5px], [17, 1px]]
+                    cap: round
+
+    roads:
+        data: { source: mapzen }
+        filter: { not: { kind: rail } }
+        draw:
+            lines:
+                width: 1px
+                order: global.feature_order
+                outline:
+                    order: 352
+
+        early:
+            filter: { $zoom: { max: 15} }
+            draw:
+                lines:
+                    outline:
+                        order: global.order
+        bridges_and_tunnels:
+            filter: { any: [is_bridge: true, is_tunnel: true] }
+            draw:
+                lines:
+                    outline:
+                        order: global.feature_order
+
+        highway:
+            filter:
+                kind: highway
+                $zoom: { min: 8 }
+            highway-z8:
+                filter:
+                    $zoom: { min: 8, max: 11 }
+                draw:
+                    lines:
+                        # color: [0.463,0.800,0.824]
+                        # color: [0.000,0.535,0.630]
+                        # color: [0.000,0.312,0.367]
+                        # color: [1.000,0.000,0.000]
+                        color: [0.000,0.000,0.000]
+                        width: [[8,2px],[11,5px]]
+
+            highway-z11:
+                filter:
+                    $zoom: { min: 11 }
+                draw:
+                    lines:
+                        style: lines
+                        order: global.feature_order
+                        color: [0.000,0.000,0.000]
+                        width: [[8,0px],[19,12px]]
+                    highway-dashed:
+                        style: highway-dashed
+                        order: global.order_sub_1
+                        color: [1.000,1.000,1.000]
+                        width: [[8,0px],[16,4px],[17,8px],]
+                        outline:
+                            color: [0.400,0.400,0.400]
+                            width: [[8,0.5px],[17,7px]]
+                    highway-glow:
+                        style: lines
+                        order: global.order_sub_6
+                        color: [0.250,0.250,0.250]
+                        width: [[11,8px],[13,20px],[16,50px],[17,40px],[18,50px],[19,30px]]
+                        outline:
+                            color: [0.000,0.000,0.000]
+                            width: [[8,0.5px],[17,3px]]
+                    # highway-casing:
+                    #     style: lines
+                    #     order: global.order_sub8
+                    #     color: [0.000,0.000,1.000]
+                    #     width: [[11,8px],[19,80px]]
+
+            # Show 0 width roads one zoom before they have width, so they can scale up instead of popping in
+            # highway-z17:
+            #     filter:
+            #         $zoom: { min: 16 }
+            #     draw:
+            #         highway-casing:
+            #             visible: true
+            #             order: global.order_sub_2
+            #             color: [1.000,0.000,0.000]
+            #             width: [[8,0px],[16,10px],[17,18px],[18,34px],[19,45px]]
+
+    places:
+        data: { source: mapzen, layer: places }
+        filter:
+            name: true
+        draw:
+            text-blend-order:
+                visible: false    # labels are enabled by each layer below
+                buffer: 3px
+                font:
+                    family: global.text_font_family
+                    fill: [0.250,0.250,0.250]
+            # END NOTE
+
+        country:
+            filter:
+                kind: country
+                $zoom: { min: 2, max: 9 }
+            draw:
+                text-blend-order:
+                    priority: 3
+                    visible: true
+                    text_source: global.ux_language_text_source
+                    font:
+                        fill: [0.500,0.500,0.500]
+                        weight: 600
+                        stroke: { color: [0.910,0.902,0.902], width: 4px }
+            country-z2-3:
+                filter:
+                    $zoom: [2,3]
+                draw:
+                    text-blend-order:
+                        priority: 10
+                        buffer: 10px
+                        font:
+                            size: 11px
+                early-ones-z2:
+                    filter:
+                        $zoom: [2]
+                        not: { name: [United States of America,Brasil,中华人民共和国,Россия,Canada,Kalaallit Nunaat,Ísland,Australia,India,日本,Guam,Indonesia,South Africa,مصر,Nigeria,Kenya] }
+                    draw:
+                        text-blend-order:
+                            visible: false
+                early-ones-z3:
+                    filter:
+                        $zoom: [3]
+                        name: [Nederland,Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,Crna Gora,Македонија,The Gambia,Burundi,Swaziland,الإمارات العربية المتحدة,العراق,Singapore,El Salvador,Belize,Trinidad and Tobago, Saint Lucia, Montserrat,Anguilla,República Dominicana,Bahamas,British Virgin Islands,Antigua and Barbuda,Grenada,Sint Maarten,Saint Kitts and Nevis,Cayman Islands,België - Belgique - Belgien,Deutschland,España]
+                    draw:
+                        text-blend-order:
+                            visible: false
+            country-z4:
+                filter:
+                    $zoom: [4]
+                draw:
+                    text-blend-order:
+                        buffer: 10px
+                        priority: 8
+                        font:
+                            size: 13px
+                early-ones-z4:
+                    filter:
+                        name: [Nederland,Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,Crna Gora,Македонија,The Gambia,Burundi,Swaziland,الإمارات العربية المتحدة,العراق,Singapore,El Salvador,Belize,Trinidad and Tobago, Saint Lucia, Montserrat,Anguilla,República Dominicana,Bahamas,British Virgin Islands,Antigua and Barbuda,Grenada,Sint Maarten,Saint Kitts and Nevis,Cayman Islands,België - Belgique - Belgien,Deutschland,España,Magyarország,Österreich,Polska,Хуссар Ирыстон,Аҧсны - Абхазия]
+                    draw:
+                        text-blend-order:
+                            visible: false
+            country-z5:
+                filter:
+                    $zoom: [5]
+                draw:
+                    text-blend-order:
+                        priority: 8
+                        font:
+                            size: 16px
+                early-ones-z5:
+                    filter:
+                        # South Ossetia and Abkhazia aren't countries (they are disputed areas)
+                        - name: [Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,El Salvador,Belize,België - Belgique - Belgien,"Хуссар Ирыстон - Южная Осетия","Хуссар Ирыстон","Аҧсны - Абхазия","Լեռնային Ղարաբաղի Հանրապետությու (Nagorno-Karabakh Republic)"]
+                        - population: { max: 5000000 }
+                    draw:
+                        text-blend-order:
+                            visible: false
+            country-z6:
+                filter:
+                    $zoom: [6]
+                draw:
+                    text-blend-order:
+                        priority: 8
+                        font:
+                            size: 19px
+                small-ones-z6:
+                    filter:
+                        # South Ossetia and Abkhazia aren't countries (they are disputed areas)
+                        - name: [Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,België - Belgique - Belgien,"Хуссар Ирыстон - Южная Осетия","Хуссар Ирыстон","Аҧсны - Абхазия","Լեռնային Ղարաբաղի Հանրապետությու (Nagorno-Karabakh Republic)"]
+                        - population: { max: 5000000 }
+                    draw:
+                        text-blend-order:
+                            visible: false
+            country-z7:
+                # South Ossetia and Abkhazia aren't countries (they are disputed areas)
+                filter: { $zoom: { min: 7, max: 9 } }
+                draw:
+                    text-blend-order:
+                        font:
+                            size: 19px
+                small-ones-z7:
+                    filter:
+                        $zoom: [7]
+                        # South Ossetia and Abkhazia aren't countries (they are disputed areas)
+                        name: [Liechtenstein,San Marino,Civitatis Vaticanæ,"Хуссар Ирыстон - Южная Осетия","Хуссар Ирыстон","Аҧсны - Абхазия","Լեռնային Ղարաբաղի Հանրապետությու (Nagorno-Karabakh Republic)"]
+                    draw:
+                        text-blend-order:
+                            visible: false
+                small-pop:
+                    filter:
+                        - population: { max: 5000000 }
+                    draw:
+                        text-blend-order:
+                            priority: 30
+                            font:
+                                size: 12px
+
+        region:
+            filter:
+                kind: region
+                $zoom: { min: 4, max: 9 }
+            draw:
+                text-blend-order:
+                    priority: 14
+                    visible: false
+                    text_source: global.ux_language_text_source_short
+                    font:
+                        size: 11px
+                        weight: normal
+                        fill: [0.600,0.600,0.600]
+                        stroke: { color: [0.910,0.902,0.902], width: 4px }
+            region-z4:
+                filter:
+                    $zoom: [4]
+                    not: { name: [Western Cape,Eastern Cape,Northern Cape,North West,Limpopo,KwaZulu-Natal,Hamburg,Freie und Hansestadt Hamburg,Neuchâtel,Nordrhein-Westfalen,Haute-Normandie,Baden-Württemberg,Bayern,Sachsen-Anhalt,Berlin,Mecklenburg-Vorpommern,Schleswig-Holstein,Brandenburg,Niedersachsen,Saarland,Thüringen,Hessen,Sachsen] }
+                draw:
+                    text-blend-order:
+                        visible: true
+                        # font:
+                        #     fill: [0.70,0.70,0.70]
+            region-z5:
+                filter:
+                    $zoom: [5]
+                    not: { name: [Western Cape,Eastern Cape,Northern Cape,North West,Limpopo,KwaZulu-Natal,Hamburg,Freie und Hansestadt Hamburg,Neuchâtel,Nordrhein-Westfalen,Haute-Normandie,Baden-Württemberg,Bayern,Sachsen-Anhalt,Berlin,Mecklenburg-Vorpommern,Schleswig-Holstein,Brandenburg,Niedersachsen,Saarland,Thüringen,Hessen,Sachsen] }
+                draw:
+                    text-blend-order:
+                        visible: true
+                        font:
+                            size: 15px
+            region-z6:
+                filter:
+                    $zoom: [6]
+                    not: { name: [Western Cape,Eastern Cape,Northern Cape,North West,Limpopo,KwaZulu-Natal,Hamburg,Freie und Hansestadt Hamburg,Neuchâtel,Nordrhein-Westfalen,Haute-Normandie,Baden-Württemberg,Bayern,Sachsen-Anhalt,Berlin,Mecklenburg-Vorpommern,Schleswig-Holstein,Brandenburg,Niedersachsen,Saarland,Thüringen,Hessen,Sachsen] }
+                draw:
+                    text-blend-order:
+                        visible: true
+                        font:
+                            size: 16px
+                            transform: uppercase
+
+            region-z7-z8:
+                filter: { $zoom: [7,8] }
+                draw:
+                    text-blend-order:
+                        visible: true
+                        text_source: global.ux_language_text_source_short_proxy_name
+                        font:
+                            size: 18px
+                            transform: uppercase
+                pesky:
+                    filter:
+                        $zoom: [7]
+                        name: [Western Cape,Eastern Cape,Northern Cape,North West,Limpopo,KwaZulu-Natal,Hamburg,Freie und Hansestadt Hamburg,Neuchâtel,Nordrhein-Westfalen,Haute-Normandie,Baden-Württemberg,Bayern,Sachsen-Anhalt,Berlin,Mecklenburg-Vorpommern,Schleswig-Holstein,Brandenburg,Niedersachsen,Saarland,Thüringen,Hessen,Sachsen]
+                    draw:
+                        text-blend-order:
+                            visible: false
+                abbrev-small-ones-z7:
+                    filter:
+                        $zoom: [7]
+                        name: [Delaware,New Jersey,Connecticut,Rhode Island,Massachusetts,New Hampshire,Vermont]
+                    draw:
+                        text-blend-order:
+                            text_source: global.ux_language_text_source_abbreviation
+                            font: { transform: uppercase }
+                region-z8:
+                    filter:
+                        $zoom: [8]
+                    draw:
+                        text-blend-order:
+                            text_source: global.ux_language_text_source
+                    no-pop:
+                        filter:
+                            any:
+                                - population: false
+                                - population: { max: 1000000 }
+                        draw:
+                            text-blend-order:
+                                font:
+                                    size: 12px
+
+        populated-places:
+            filter:
+                kind: locality
+            draw:
+                text-blend-order:
+                    visible: true
+                    buffer: 42px
+                    font:
+                        size: [[5,9px],[8,10px],[12,11px]]
+                        stroke: { color: [0.910,0.902,0.902], width: 5px }
+
+            # _text_early:
+            #     filter: { $zoom: { max: 11 } }
+            #     draw:
+            #         text-blend-order:
+            #             visible: false
+
+
+            # HACK
+            # NOTE: These should use icon: buffer instead of going visible: false, but there are problems using icon here :(
+            # This fixes Paris area, but causes problems for small places in the USA eg Table Bluff near Eureka, California.
+            funky-village:
+                filter: { $zoom: [11], population: { max: 1000 }, kind_detail: [village] }
+                draw:
+                    text-blend-order:
+                        visible: false
+            funky-isolated_dwelling:
+                filter: { $zoom: [13], kind_detail: [isolated_dwelling] }
+                draw:
+                    text-blend-order:
+                        visible: false
+            hamlet:
+                filter: { $zoom: [13], kind_detail: hamlet }
+                draw:
+                    text-blend-order:
+                        visible: false
+            # END HACK
+
+            # someone in London and Salt Lake City thought neighbourhoods should be tagged place: locality
+            # They were wrong
+            funky-fake-neighbourhoods:
+                filter: { $zoom: { min: 13 }, kind_detail: [locality] }
+                draw:
+                    text-blend-order:
+                        visible: false
+
+
+            population-10m-up:
+                filter:
+                    population: { min: 10000000 }
+                draw:
+                    text-blend-order:
+                        priority: 6
+                        font:
+                            size: [[2,11px],[6,15px],[8,18px],[10,20px],[12,20px],[13,0px]]
+            population-5m-10m:
+                filter:
+                    population: { min: 5000000, max: 10000000 }
+                draw:
+                    text-blend-order:
+                        priority: 7
+                        font:
+                            size: [[4,10px],[6,14px],[8,18px],[10,20px],[12,20px],[13,0px]]
+            population-1m-5m:
+                filter:
+                    population: { min: 1000000, max: 5000000 }
+                draw:
+                    text-blend-order:
+                        priority: 9
+                        font:
+                            size: [[4,10px],[6,14px],[8,15px],[12,18px],[13,0px]]
+            population-500k-1m:
+                filter:
+                    population: { min: 500000, max: 1000000 }
+                draw:
+                    text-blend-order:
+                        priority: 11
+                        font:
+                            size: [[5,10px],[8,12px],[10,14px],[12,16px],[13,0px]]
+            population-200k-500k:
+                filter:
+                    population: { min: 200000, max: 500000 }
+                draw:
+                    text-blend-order:
+                        priority: 13
+                        font:
+                            size: [[6,10px],[8,14px],[10,15px],[12,16px],[13,0px]]
+            population-100k-200k:
+                filter:
+                    population: { min: 100000, max: 200000 }
+                draw:
+                    text-blend-order:
+                        priority: 15
+                        font:
+                            size: [[6,10px],[8,12px],[14,14px],[15,0px]]
+            population-50k-100k:
+                filter:
+                    population: { min: 50000, max: 100000 }
+                draw:
+                    text-blend-order:
+                        priority: 17
+                        font:
+                            size: [[6,10px],[8,12px],[14,14px],[15,0px]]
+            population-20k-50k:
+                filter:
+                    population: { min: 20000, max: 50000 }
+                draw:
+                    text-blend-order:
+                        priority: 19
+                        font:
+                            size: [[9,10px],[14,12px],[15,0px]]
+            population-10k-20k:
+                filter:
+                    population: { min: 10000, max: 20000 }
+                draw:
+                    text-blend-order:
+                        priority: 21
+                        font:
+                            size: [[9, 10px],[14, 12px],[15, 0px]]
+            population-5k-10k:
+                filter:
+                    population: { min: 5000, max: 10000 }
+                draw:
+                    text-blend-order:
+                        priority: 23
+                        font:
+                            size: [[9,10px], [14,12px], [15,0px]]
+            population-2k-5k:
+                filter:
+                    population: { min: 2000, max: 5000 }
+                draw:
+                    text-blend-order:
+                        priority: 25
+                        font:
+                            size: [[9,10px], [14,12px], [15,0px]]
+            population-1k-2k:
+                filter:
+                    population: { min: 1000, max: 2000 }
+                draw:
+                    text-blend-order:
+                        priority: 27
+                        font:
+                            size: [[9, 10px], [14, 12px], [15, 0px]]
+            population-200-1k:
+                filter:
+                    population: { min: 200, max: 1000 }
+                draw:
+                    text-blend-order:
+                        priority: 28
+                        font:
+                            size: [[9, 10px], [14, 11px], [15, 0px]]
+
+styles:
+    lines_transparent:
+        base: lines
+        blend: overlay
+
+    polygons_transparent:
+        base: polygons
+        blend: overlay
+                    
+    text-blend-order:
+        base: text
+        blend: overlay
+
+    roads-glow:
+        base: lines
+        mix: [functions-zoom, lines-glow]
+        shaders:
+            defines:
+                ZOOM_START: 5.
+                ZOOM_END: 6.
+                GLOW_WIDTH: mix(1.,.45,zoom())
+                GLOW_BRIGHTNESS: zoom()*.12
+
+    highway-dashed:
+        base: lines
+        dash: [5,5]
+        dash_background_color: [0.250,0.250,0.250]
+        shaders:
+            blocks:
+                position: |
+                    v_texcoord.y *= 4.;
+
+    highway-casing:
+        base: lines
+        mix: [functions-aastep, functions-pulse, functions-zoom]
+        texcoords: true
+        shaders:
+            defines:
+                ZOOM_START: 16.
+                ZOOM_END: 19.
+
+                BACKGROUND_COLOR: vec3(0.086,0.135,0.260)
+                # CAST_A_COLOR: vec3(0.541,0.969,0.949)
+                CAST_A_COLOR: v_color.rgb
+                CAST_A_WIDTH: 0.03
+                CAST_A_DIST: mix(0.47,0.34,zoom())
+                # CAST_B_COLOR: vec3(0.800,1.000,0.987)
+                CAST_B_COLOR: v_color.rgb+vec3(0.259,0.031,0.038)
+                CAST_B_WIDTH: 0.07
+                CAST_B_DIST: 0.47
+            blocks:
+                color: |
+                    float x = abs(v_texcoord.x-.5);
+                    color = mix(vec4(BACKGROUND_COLOR,1), color, aastep(CAST_B_DIST+CAST_B_WIDTH*.5, x));
+                    color.rgb = mix(color.rgb, CAST_A_COLOR, aastep(.5, pulse(x, CAST_A_DIST, CAST_A_WIDTH)));
+                    color.rgb = mix(color.rgb, CAST_B_COLOR, aastep(.5, pulse(x, CAST_B_DIST, CAST_B_WIDTH)));
+
+    lines-traffic-animation:
+        base: lines
+        animated: true
+        mix: [generative-random, tron-palette, functions-zoom]
+        texcoords: true
+        shaders:
+            defines:
+                ZOOM_START: 11.
+                ZOOM_END: 18.
+                DATASTREAM_SPEED: 50.
+                DATASTREAM_ROADS: 5.0
+                DATASTREAM_MARGIN: z*.3
+                DATASTREAM_COLOR: palette( fract(floor(v_texcoord.x*DATASTREAM_ROADS)/DATASTREAM_ROADS+u_time*.1)*z )
+                DATASTREAM_AMOUNT: .8
+                DATASTREAM_ANIMATED: global.sdk_animated
+            blocks:
+                global: |
+                    float datastream_pattern(vec2 st, float v, float t) {
+                        float p = floor(st.y+v);
+                        return step(t, (random(p*.000001)+random(p))*.5 );
+                    }
+                color: |
+                    #ifdef DATASTREAM_ANIMATED
+                    vec2 st = v_texcoord.xy;
+                    float z = zoom();
+                    float datastream_speed = (-.5 * random(floor(v_texcoord.x*DATASTREAM_ROADS)) - .5);
+
+                    #ifdef DATASTREAM_TWOWAYS
+                    if (st.x < 0.5) {
+                      datastream_speed *= -1.;
+                    }
+                    #endif
+
+                    color.rgb = mix(color.rgb,
+                                    DATASTREAM_COLOR,
+                                    z*
+                                    datastream_pattern( st,
+                                                        (u_time*DATASTREAM_SPEED)*datastream_speed,
+                                                        DATASTREAM_AMOUNT)*
+                                                    smoothstep(DATASTREAM_MARGIN,1.,sin(fract(v_texcoord.x*DATASTREAM_ROADS)*3.1415))
+                                    );
+                    #endif
+
+    tron-palette:
+        shaders:
+            blocks:
+                global: |
+                    vec3 palette(in float x) {
+                        return mix(vec3(0.000,1.000,1.), 
+                                   vec3(1.,0.,0.), 
+                                   vec3(smoothstep(0.0,1.048, x),
+                                        sin(x*2.806), 
+                                        smoothstep(-0.512,1.072,x)))*(1.0-sin(-0.196+x*3.950)*0.380);
+                    }
+
+    lines-glow:
+        base: lines
+        mix: [block, functions-aastep]
+        texcoords: true
+        blend: add
+        shaders:
+            defines:
+                GLOW_WIDTH: 0.4
+                GLOW_BRIGHTNESS: .25
+            blocks:
+                color: |
+                    vec4 glow_tmp_color = color;
+                    color = glow_tmp_color*(aastep(GLOW_WIDTH,1.-v_texcoord.x)*aastep(GLOW_WIDTH,v_texcoord.x));
+                    color += glow_tmp_color*(sin(v_texcoord.x*PI)*GLOW_BRIGHTNESS);
+
+    functions-aastep:
+        shaders:
+            extensions: OES_standard_derivatives
+            blocks:
+                global: |
+                    // AntiAliased Step function
+                    //=============================
+                    float aastep(float threshold, float value) {
+                        #ifdef TANGRAM_FRAGMENT_SHADER
+                            #ifdef TANGRAM_EXTENSION_OES_standard_derivatives
+                                float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;
+                                return smoothstep(threshold-afwidth, threshold+afwidth, value);
+                            #else
+                                return step(threshold, value);
+                            #endif  
+                        #else
+                            return step(threshold, value);
+                        #endif
+                    }
+
+    functions-zoom:
+        mix: [functions-easing]
+        shaders:
+            defines:
+                ZOOM_START: 14.
+                ZOOM_END: 20.
+                ZOOM_MAX: max(ZOOM_START, ZOOM_END)
+                ZOOM_FNC: linear
+                ZOOM_IN: 0.0
+                ZOOM_OUT: 1.0
+            blocks:
+                global: |
+                    float zoom() {
+                        return mix( ZOOM_IN, 
+                                    ZOOM_OUT, 
+                                    clamp( smoothstep(  ZOOM_START/ZOOM_MAX, 
+                                                        ZOOM_END/ZOOM_MAX, 
+                                                        max(u_map_position.z/ZOOM_MAX, 0.)), 0., 1.) );
+                    }
+
+                    float zoomEase() {
+                        return mix( ZOOM_IN, 
+                                    ZOOM_OUT, 
+                                    ZOOM_FNC( (u_map_position.z-ZOOM_START)/(ZOOM_END-ZOOM_START) ) );
+                    }
+
+    functions-easing:
+        shaders:
+            defines:
+                PI: 3.1415926535897932384626433832795
+                HALF_PI: 1.5707963267948966192313216916398
+            blocks:
+                global: |
+                    float linear (in float t) {
+                        return t;
+                    }
+
+                    float exponentialIn (in float t) {
+                        return t == 0.0 ? t : pow(2.0, 10.0 * (t - 1.0));
+                    }
+
+                    float exponentialOut (in float t) {
+                        return t == 1.0 ? t : 1.0 - pow(2.0, -10.0 * t);
+                    }
+
+                    float exponentialInOut (in float t) {
+                        return t == 0.0 || t == 1.0
+                        ? t
+                        : t < 0.5
+                            ? +0.5 * pow(2.0, (20.0 * t) - 10.0)
+                            : -0.5 * pow(2.0, 10.0 - (t * 20.0)) + 1.0;
+                    }
+
+                    float sineIn (in float t) {
+                        return sin((t - 1.0) * HALF_PI) + 1.0;
+                    }
+
+                    float sineOut (in float t) {
+                        return sin(t * HALF_PI);
+                    }
+
+                    float sineInOut (in float t) {
+                        return -0.5 * (cos(PI * t) - 1.0);
+                    }
+
+                    float qinticIn (in float t) {
+                        return pow(t, 5.0);
+                    }
+
+                    float qinticOut (in float t) {
+                        return 1.0 - (pow(t - 1.0, 5.0));
+                    }
+
+                    float qinticInOut (in float t) {
+                        return t < 0.5
+                            ? +16.0 * pow(t, 5.0)
+                            : -0.5 * pow(2.0 * t - 2.0, 5.0) + 1.0;
+                    }
+
+                    float quarticIn (in float t) {
+                        return pow(t, 4.0);
+                    }
+
+                    float quarticOut (in float t) {
+                        return pow(t - 1.0, 3.0) * (1.0 - t) + 1.0;
+                    }
+
+                    float quarticInOut (in float t) {
+                        return t < 0.5
+                            ? +8.0 * pow(t, 4.0)
+                            : -8.0 * pow(t - 1.0, 4.0) + 1.0;
+                    }
+
+                    float quadraticInOut (in float t) {
+                        float p = 2.0 * t * t;
+                        return t < 0.5 ? p : -p + (4.0 * t) - 1.0;
+                    }
+
+                    float quadraticIn (in float t) {
+                        return t * t;
+                    }
+
+                    float quadraticOut (in float t) {
+                        return -t * (t - 2.0);
+                    }
+
+                    float cubicIn (in float t) {
+                        return t * t * t;
+                    }
+
+                    float cubicOut (in float t) {
+                        float f = t - 1.0;
+                        return f * f * f + 1.0;
+                    }
+
+                    float cubicInOut (in float t) {
+                        return t < 0.5
+                            ? 4.0 * t * t * t
+                            : 0.5 * pow(2.0 * t - 2.0, 3.0) + 1.0;
+                    }
+
+                    float elasticIn (in float t) {
+                        return sin(13.0 * t * HALF_PI) * pow(2.0, 10.0 * (t - 1.0));
+                    }
+
+                    float elasticOut (in float t) {
+                        return sin(-13.0 * (t + 1.0) * HALF_PI) * pow(2.0, -10.0 * t) + 1.0;
+                    }
+
+                    float elasticInOut (in float t) {
+                        return t < 0.5
+                            ? 0.5 * sin(+13.0 * HALF_PI * 2.0 * t) * pow(2.0, 10.0 * (2.0 * t - 1.0))
+                            : 0.5 * sin(-13.0 * HALF_PI * ((2.0 * t - 1.0) + 1.0)) * pow(2.0, -10.0 * (2.0 * t - 1.0)) + 1.0;
+                    }
+
+                    float circularIn (in float t) {
+                        return 1.0 - sqrt(1.0 - t * t);
+                    }
+
+                    float circularOut (in float t) {
+                        return sqrt((2.0 - t) * t);
+                    }
+
+                    float circularInOut (in float t) {
+                        return t < 0.5
+                            ? 0.5 * (1.0 - sqrt(1.0 - 4.0 * t * t))
+                            : 0.5 * (sqrt((3.0 - 2.0 * t) * (2.0 * t - 1.0)) + 1.0);
+                    }
+
+                    float bounceOut (in float t) {
+                        const float a = 4.0 / 11.0;
+                        const float b = 8.0 / 11.0;
+                        const float c = 9.0 / 10.0;
+
+                        const float ca = 4356.0 / 361.0;
+                        const float cb = 35442.0 / 1805.0;
+                        const float cc = 16061.0 / 1805.0;
+
+                        float t2 = t * t;
+
+                        return t < a
+                        ? 7.5625 * t2
+                        : t < b
+                            ? 9.075 * t2 - 9.9 * t + 3.4
+                            : t < c
+                                ? ca * t2 - cb * t + cc
+                                : 10.8 * t * t - 20.52 * t + 10.72;
+                    }
+
+                    float bounceIn (in float t) {
+                        return 1.0 - bounceOut(1.0 - t);
+                    }
+
+                    float bounceInOut (in float t) {
+                        return t < 0.5
+                        ? 0.5 * (1.0 - bounceOut(1.0 - t * 2.0))
+                        : 0.5 * bounceOut(t * 2.0 - 1.0) + 0.5;
+                    }
+
+                    float backIn (in float t) {
+                        return pow(t, 3.0) - t * sin(t * PI);
+                    }
+
+                    float backOut (in float t) {
+                        float f = 1.0 - t;
+                        return 1.0 - (pow(f, 3.0) - f * sin(f * PI));
+                    }
+
+                    float backInOut (in float t) {
+                        float f = t < 0.5
+                        ? 2.0 * t
+                        : 1.0 - (2.0 * t - 1.0);
+
+                        float g = pow(f, 3.0) - f * sin(f * PI);
+
+                        return t < 0.5
+                        ? 0.5 * g
+                        : 0.5 * (1.0 - g) + 0.5;
+                    }
+
+    functions-pulse:
+        shaders:
+            blocks:
+                global: |
+                    float pulse (float x, float peak, float width) {
+                        x = abs(x - peak);
+                        if (x>width) return 0.0;
+                        x /= width;
+                        return 1.0 - x*x*(3.0-2.0*x);
+                    }
+
+    generative-random:
+        shaders:
+            uniforms:
+                u_random: https://tangrams.github.io/blocks/generative/imgs/tex16.png
+            blocks:
+                global: |
+                    vec3 random3 (vec2 p) {
+                        #ifdef RANDOM_TEXSAMPLE
+                        return texture2D(u_random,fract(p*2.),-100.).rgb;
+                        #else
+                        return fract(sin(vec3( dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)), dot(p,vec2(419.2,371.9)) ))*43758.5453); 
+                        #endif
+                    }
+                    vec3 random3 (vec3 p) {
+                        #ifdef RANDOM_TEXSAMPLE
+                        vec2 uv = fract(p.xy+vec2(37.0,17.0)*p.z);
+                        return texture2D(u_random, fract(uv*2.), -100.0).rgb;
+                        #else
+                        float j = 4096.0*sin(dot(p,vec3(17.0, 59.4, 15.0)));
+                        vec3 r;
+                        r.z = fract(512.0*j);
+                        j *= .125;
+                        r.x = fract(512.0*j);
+                        j *= .125;
+                        r.y = fract(512.0*j);
+                        return r-0.5;
+                        #endif
+                    }
+                    vec2 random2 (vec2 p) { 
+                        #ifdef RANDOM_TEXSAMPLE
+                        return random3(p).rg;
+                        #else
+                        return fract(sin(vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))))*43758.5453); 
+                        #endif
+                    }
+                    float random (float x) { 
+                        return fract(sin(x)*43758.5453);
+                    }
+                    float random (vec2 p) { 
+                        #ifdef RANDOM_TEXSAMPLE
+                        return random3(p).r;
+                        #else
+                        return fract(1e4 * sin(17.0 * p.x + p.y * 0.1) * (0.1 + abs(sin(p.y * 13.0 + p.x)))); 
+                        #endif
+                    }
+                    float random (vec3 p) { 
+                        #ifdef RANDOM_TEXSAMPLE
+                        return random3(p).r;
+                        #else
+                        return fract(sin(dot(p.xyz, vec3(70.9898,78.233,32.4355)))* 43758.5453123); 
+                        #endif
+                    }
+
+    block:
+        shaders:
+            defines:
+                ADD: '+'
+                SUBTRACT: '-'
+                MULTIPLY: '*'
+
+                PI: 3.1415926535897932384626433832795
+                TWO_PI: 6.2831853071795864769252867665590
+                HALF_PI: 1.5707963267948966192313216916398
+                QUATER_PI: .785398163
+
+                EPSILON: 0.0000001
+
+                deg2rad(d): (((d)*3.1415926535897932384626433832795)/180.0)
+                rad2deg(d): (((d)*180.0)/3.1415926535897932384626433832795)
