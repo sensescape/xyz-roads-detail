@@ -37,6 +37,16 @@ global:
     sdk_api_key: '3eqm2_bfTNGZ85ar20fVyA'     # set this value to your Mapzen API key
 
     black_color:                  [1.000,1.000,1.000]
+    dark_color:                   [0.990,0.990,0.990]
+    mid_color:                    [0.980,0.980,0.980]
+    midlight_color:               [0.970,0.970,0.970]
+    extralight_color:             [0.960,0.960,0.960]
+    light_color:                  [0.950,0.950,0.950]
+    lighter_color:                [0.940,0.940,0.940]
+    lightest_color:               [0.890,0.890,0.890]
+    ultralight_color:             [0.880,0.880,0.880]
+    offwhite_color:               [0.870,0.870,0.870]
+    white_color:                  [0.860,0.860,0.860]
 
     roads_text_fill:              [0.250,0.250,0.250]
     roads_text_stroke:            [0.820,0.812,0.812]
@@ -293,8 +303,8 @@ layers:
                 lines:
                     visible: true
                     order: global.feature_order
-                    color: [0.800,0.800,0.800]
-                    width: 1px
+                    color: [0.970,0.970,0.970]
+                    width: 3px
                     join: round
 
         water_boundaries-not-ocean:
@@ -325,7 +335,7 @@ layers:
                 lines:
                     visible: true
                     order: global.feature_order
-                    color: [0.800,0.800,0.800]
+                    color: [0.970,0.970,0.970]
                     width: [[6, 0.75px], [10, 1px]]
                     join: round
             riverbank:
@@ -334,7 +344,7 @@ layers:
                 draw:
                     lines:
                         visible: true
-                        color: [0.800,0.800,0.800]
+                        color: [0.900,0.900,0.900]
                         width: [[9, 0.5px], [15, 1px]]
         river:
             #river center lines, not boundaries for polygons
@@ -390,15 +400,15 @@ layers:
                         style: lines
                         order: global.feature_order
                         color: [0.250,0.250,0.250]
-                        width: [[8,0px],[19,8px]]
+                        width: [[8,0px],[18,8px]]
                         outline:
                             color: [0.600,0.600,0.600]
-                            width: [[8,1px],[11,2px],[12,2px],[15,5px],[17,12px],[18,14px]]
+                            width: [[8,0.5px],[11,0.5px],[14,3px],[18,8px]]
                     highway-dashed:
                         style: highway-dashed
                         order: global.order_sub_1
                         color: [0.700,0.700,0.700]
-                        width: [[8,0px],[16,1.5px],[17,3px]]
+                        width: [[8,0px],[11,0.5px],[16,1.5px],[17,2px]]
                         outline:
                             color: [0.200,0.200,0.200]
                             width: [[8,0.5px],[12,0.5px],[17,4px]]
@@ -406,7 +416,7 @@ layers:
                         style: lines
                         order: global.order_sub_6
                         color: [0.250,0.250,0.250]
-                        width: [[11,1px],[12,2px],[15,8px],[16,12px],[18,21px]]
+                        width: [[11,0.5px],[13,1.5px],[15,7px],[16,10px],[18,13px]]
                         outline:
                             color: [0.000,0.000,0.000]
                             width: [[8,0.5px],[13,0.5px],[17,3px]]
@@ -417,10 +427,10 @@ layers:
                         lines:
                             order: global.order_add_1
                             color: [0.250,0.250,0.250]
-                            width: [[8,0px],[12,1px],[17,2px],[20,8px]]
+                            width: [[8,0px],[15,0.5px],[16,3px],[18,10px]]
                             outline:
-                                color: [0.700,0.700,0.700]
-                                width: [[8,0px],[12,1px],[18,1px]]
+                                color: [0.850,0.850,0.850]
+                                width: [[8,0px],[18,3px]]
                         highway-dashed:
                             visible: false
                         highway-glow:
@@ -474,6 +484,182 @@ layers:
             #             order: global.order_sub_2
             #             color: [1.000,0.000,0.000]
             #             width: [[8,0px],[16,10px],[17,18px],[18,34px],[19,45px]]
+
+        major_road:
+            filter: { kind: major_road, $zoom: { min: 8 } }
+            # default style
+            draw:
+                lines:
+                    color: [[8, [0.900,0.900,0.900]], [16, [0.250,0.250,0.250]]]
+                    width: [[8, 0.5px], [15, 0.5px], [16, 1px]]
+            trunk_primary:
+                filter: { kind_detail: [trunk, primary] }
+                draw:
+                    lines:
+                        style: lines
+                        color: [[8, [0.900,0.900,0.900]], [14, [0.250,0.250,0.250]]]
+                        width: [[8, 0.5px], [15, 0.5px], [16, 3px], [18, 10px]]
+                        outline:
+                            color: [0.650,0.650,0.650]
+                            width: [[8, 0px], [14, 1px], [18, 1px]]
+                    roads-dashed:
+                        style: highway-dashed
+                        order: global.order_sub_1
+                        color: [1.000,1.000,1.000]
+                        width: [[8, 0.5px], [15, 0.5px], [16, 1px], [18, 1px]]
+
+                routes:
+                    filter: { ref: true }
+                    draw:
+                        lines:
+                            color: [[8, [0.900,0.900,0.900]], [16, [0.250,0.250,0.250]]]
+                            width: [[8, 0.5px], [15, 0.5px], [16, 8px], [18, 24px]]
+                    # labels-trunk_primary-route-z14:
+                    #     filter: { $zoom: { min: 14 } }
+                    #     draw:
+                    #         text-blend-order:
+                    #             priority: 51
+                    #             visible: true
+                    #             text_source: global.ux_language_text_source_road_ref_and_name
+                    #             font:
+                    #                 weight: 600
+                    #                 size: [[15,12px],[20,14px]]
+                    #                 stroke: { color: global.roads_text_stroke, width: 4px }
+                # labels-trunk-primary-z14:
+                #     filter: { $zoom: 14 }
+                #     draw:
+                #         text-blend-order:
+                #             priority: 51
+                #             text_source: global.ux_language_text_source
+                #             visible: true
+                #             font:
+                #                 size: 10px
+                #                 stroke: { color: global.roads_text_stroke, width: 3px }
+
+                # labels-trunk-primary-z15:
+                #     filter: { $zoom: { min: 15 } }
+                #     draw:
+                #         text-blend-order:
+                #             priority: 51
+                #             text_source: global.ux_language_text_source_road_ref_and_name_short
+                #             visible: true
+                #             font:
+                #                 size: [[15,13px],[18,14px]]
+                #                 stroke: { color: global.roads_text_stroke, width: [[15, 4px], [17, 6px]] }
+            link:
+                filter: { is_link: true } # on- and off-ramps, etc
+                draw:
+                    lines:
+                        color: global.black_color
+                        width: 0.5px
+            secondary:
+                filter: { kind_detail: secondary }
+                draw:
+                    lines:
+                        style: lines
+                        color: [[8, [0.900,0.900,0.900]], [14, [0.250,0.250,0.250]]]
+                        width: [[8, 0.5px], [15, 0.5px], [16, 3px], [18, 10px]]
+                        outline:
+                            color: [0.650,0.650,0.650]
+                            width: [[8, 0px], [14, 1px], [18, 1px]]
+                    roads-dashed:
+                        style: highway-dashed
+                        order: global.order_sub_1
+                        color: [1.000,1.000,1.000]
+                        width: [[8, 0.5px], [15, 0.5px], [16, 1px], [18, 1px]]
+                routes:
+                    filter: { ref: true, $zoom: { min: 12 } }
+                    draw:
+                        lines:
+                            color: [[8, [0.900,0.900,0.900]], [16, [0.000,0.000,0.000]]]
+                            width: [[8, 0.5px], [15, 0.5px], [16, 1px]]
+                    # labels-secondary-routes-z15-up:
+                    #     filter: { $zoom: { min: 15 } }
+                    #     draw:
+                    #         text-blend-order:
+                    #             priority: 56
+                    #             visible: true
+                    #             text_source: global.ux_language_text_source_road_ref_and_name_short
+                    #             font:
+                    #                 weight: 600
+                    #                 size: [[13,10px],[15,13px],[18,14px]]
+                    #                 stroke: { color: global.roads_text_stroke, width: 4px }
+                # labels-secondary:
+                #     filter: { $zoom: { min: 15 } }
+                #     draw:
+                #         text-blend-order:
+                #             priority: 56
+                #             visible: true
+                #             text_source: global.ux_language_text_source_road_ref_and_name_short
+                #             font:
+                #                 size: [[15,13px],[18,14px]]
+                #                 stroke: { color: global.roads_text_stroke, width: 4px }
+            tertiary:
+                filter: { kind_detail: [tertiary, tertiary_link] }
+                draw:
+                    lines:
+                        color: [[8, [0.900,0.900,0.900]], [16, [0.000,0.000,0.000]]]
+                        width: [[8, 0.5px], [15, 0.5px], [16, 1px]]
+                routes:
+                    filter: { ref: true, $zoom: { min: 12 } }
+                    draw:
+                        lines:
+                            color: [[8, [0.900,0.900,0.900]], [16, [0.000,0.000,0.000]]]
+                            width: [[8, 0.5px], [15, 0.5px], [16, 1px]]
+                link:
+                    filter: { is_link: true } # on- and off-ramps, etc
+                    draw:
+                        lines:
+                            color: global.black_color
+                            width: 0.5px
+                # labels-tertiary:
+                #     filter: { $zoom: { min: 16 } }
+                #     draw:
+                #         text-blend-order:
+                #             priority: 57
+                #             visible: true
+                #             text_source: global.ux_language_text_source_road_ref_and_name_short
+                #             font:
+                #                 size: [[15,10px],[18,14px]]
+                #                 stroke: { color: global.roads_text_stroke, width: 5px }
+
+    transit:
+        data: { source: mapzen, layer: transit }
+        subway-light-rail:
+            filter: { not: { kind: [platform] }, $zoom: { min: 14 } }
+            draw:
+                lines:
+                    order: function() { return feature.sort_rank || 275; }
+            railway:
+                filter: { kind: [railway,train] }
+                draw:
+                    lines:
+                        dash: [0.3, 1.25]
+                        dash_background_color: [1.000,1.000,1.000]
+                        color: [0.000,0.000,0.000]
+                        width: [[14, 0.5px], [16, 4px], [18, 11px]]
+                    rail-lines:
+                        order: global.order_sub_2
+                        style: rail-lines
+                        color: [1.000,1.000,1.000]
+                        width: 1px
+                        outline:
+                            color: [0.250,0.250,0.250]
+                            width: [[14, 0px], [16, 0.5px], [18, 3px]]
+
+            # subway:
+            #     filter: { kind: subway }
+            #     draw:
+            #         lines:
+            #             color: global.lighter_color
+            #             width: [[14, 0.5px], [16, 1px], [18, 1px]]
+            # light_rail:
+            #     filter: { kind: [light_rail,tram], $zoom: { min: 15 } }
+            #     draw:
+            #         lines:
+            #             order: 415
+            #             color: global.lighter_color
+            #             width: [[14, 0px], [16, 1px]]
 
     places:
         data: { source: mapzen, layer: places }
@@ -831,6 +1017,9 @@ layers:
                             size: [[9, 10px], [14, 11px], [15, 0px]]
 
 styles:
+    rail-lines:
+        base: lines
+
     lines_transparent:
         base: lines
         blend: overlay
@@ -866,6 +1055,15 @@ styles:
         base: lines
         dash: [8,10]
         dash_background_color: [0.900,0.900,0.900]
+        shaders:
+            blocks:
+                position: |
+                    v_texcoord.y *= 4.;
+
+    roads-dashed:
+        base: lines
+        dash: [8,10]
+        dash_background_color: [0.250,0.250,0.250]
         shaders:
             blocks:
                 position: |
