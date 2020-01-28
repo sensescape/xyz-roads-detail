@@ -427,7 +427,7 @@ layers:
                         lines:
                             order: global.order_add_1
                             color: [0.250,0.250,0.250]
-                            width: [[8,0px],[15,0.5px],[16,3px],[18,10px]]
+                            width: [[8,0px],[15,0.5px],[16,3px],[18,12px]]
                             outline:
                                 color: [0.850,0.850,0.850]
                                 width: [[8,0px],[18,3px]]
@@ -497,11 +497,11 @@ layers:
                 draw:
                     lines:
                         style: lines
-                        color: [[8, [0.900,0.900,0.900]], [14, [0.250,0.250,0.250]]]
-                        width: [[8, 0.5px], [15, 0.5px], [16, 3px], [18, 10px]]
+                        color: [[8, [0.900,0.900,0.900]], [14, [0.300,0.300,0.300]]]
+                        width: [[8, 0.5px], [15, 0.5px], [16, 3px], [18, 12px]]
                         outline:
-                            color: [0.650,0.650,0.650]
-                            width: [[8, 0px], [14, 1px], [18, 1px]]
+                            color: [0.000,0.000,0.000]
+                            width: [[8, 0px], [12, 0.25px], [14, 1px], [18, 3px]]
                     roads-dashed:
                         style: highway-dashed
                         order: global.order_sub_1
@@ -557,11 +557,11 @@ layers:
                 draw:
                     lines:
                         style: lines
-                        color: [[8, [0.900,0.900,0.900]], [14, [0.250,0.250,0.250]]]
-                        width: [[8, 0.5px], [15, 0.5px], [16, 3px], [18, 10px]]
+                        color: [[8, [0.900,0.900,0.900]], [14, [0.300,0.300,0.300]]]
+                        width: [[8, 0.5px], [15, 0.5px], [16, 3px], [18, 12px]]
                         outline:
-                            color: [0.650,0.650,0.650]
-                            width: [[8, 0px], [14, 1px], [18, 1px]]
+                            color: [0.000,0.000,0.000]
+                            width: [[8, 0px], [12, 0.25px], [14, 1px], [18, 3px]]
                     roads-dashed:
                         style: highway-dashed
                         order: global.order_sub_1
