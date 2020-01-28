@@ -219,7 +219,7 @@ sources:
             api_key: global.sdk_api_key
         rasters: [normals-elevation]
         tile_size: 512
-        max_zoom: 6
+        max_zoom: 16
     normals-elevation:
         type: Raster
         url: https://tile.nextzen.org/tilezen/terrain/v1/512/normal/{z}/{x}/{y}.png
@@ -293,8 +293,8 @@ layers:
                 lines:
                     visible: true
                     order: global.feature_order
-                    color: [0.000,0.000,0.000]
-                    width: 2px
+                    color: [0.800,0.800,0.800]
+                    width: 1px
                     join: round
 
         water_boundaries-not-ocean:
@@ -325,8 +325,8 @@ layers:
                 lines:
                     visible: true
                     order: global.feature_order
-                    color: [0.000,0.000,0.000]
-                    width: [[6, 0.75px], [10, 2px]]
+                    color: [0.800,0.800,0.800]
+                    width: [[6, 0.75px], [10, 1px]]
                     join: round
             riverbank:
                 # river boundaries like the thames in london, la seine in paris
@@ -334,8 +334,8 @@ layers:
                 draw:
                     lines:
                         visible: true
-                        color: [0.000,0.000,0.000]
-                        width: [[9, 0.5px], [15, 2px]]
+                        color: [0.800,0.800,0.800]
+                        width: [[9, 0.5px], [15, 1px]]
         river:
             #river center lines, not boundaries for polygons
             filter: { kind: [river,canal,stream,dam,ditch,drain], $zoom: { min: 11 }, not: { is_tunnel: true } }
@@ -343,7 +343,7 @@ layers:
                 lines:
                     visible: true
                     order: global.order_sub_1
-                    color: [0.000,0.000,0.000]
+                    color: [0.950,0.950,0.950]
                     width: [[11, 0.5px], [17, 1px]]
                     cap: round
 
@@ -379,12 +379,8 @@ layers:
                     $zoom: { min: 8, max: 11 }
                 draw:
                     lines:
-                        # color: [0.463,0.800,0.824]
-                        # color: [0.000,0.535,0.630]
-                        # color: [0.000,0.312,0.367]
-                        # color: [1.000,0.000,0.000]
-                        color: [0.000,0.000,0.000]
-                        width: [[8,2px],[11,5px]]
+                        color: [0.350,0.350,0.350]
+                        width: [[8,1px],[11,2px]]
 
             highway-z11:
                 filter:
@@ -393,29 +389,80 @@ layers:
                     lines:
                         style: lines
                         order: global.feature_order
-                        color: [0.000,0.000,0.000]
-                        width: [[8,0px],[19,12px]]
+                        color: [0.250,0.250,0.250]
+                        width: [[8,0px],[19,8px]]
+                        outline:
+                            color: [0.600,0.600,0.600]
+                            width: [[8,1px],[11,2px],[12,2px],[15,5px],[17,12px],[18,14px]]
                     highway-dashed:
                         style: highway-dashed
                         order: global.order_sub_1
-                        color: [1.000,1.000,1.000]
-                        width: [[8,0px],[16,4px],[17,8px],]
+                        color: [0.700,0.700,0.700]
+                        width: [[8,0px],[16,1.5px],[17,3px]]
                         outline:
-                            color: [0.400,0.400,0.400]
-                            width: [[8,0.5px],[17,7px]]
+                            color: [0.200,0.200,0.200]
+                            width: [[8,0.5px],[12,0.5px],[17,4px]]
                     highway-glow:
                         style: lines
                         order: global.order_sub_6
                         color: [0.250,0.250,0.250]
-                        width: [[11,8px],[13,20px],[16,50px],[17,40px],[18,50px],[19,30px]]
+                        width: [[11,1px],[12,2px],[15,8px],[16,12px],[18,21px]]
                         outline:
                             color: [0.000,0.000,0.000]
-                            width: [[8,0.5px],[17,3px]]
-                    # highway-casing:
-                    #     style: lines
-                    #     order: global.order_sub8
-                    #     color: [0.000,0.000,1.000]
-                    #     width: [[11,8px],[19,80px]]
+                            width: [[8,0.5px],[13,0.5px],[17,3px]]
+
+                highway-link:
+                    filter: { is_link: true } # on- and off-ramps, etc
+                    draw:
+                        lines:
+                            order: global.order_add_1
+                            color: [0.250,0.250,0.250]
+                            width: [[8,0px],[12,1px],[17,2px],[20,8px]]
+                            outline:
+                                color: [0.700,0.700,0.700]
+                                width: [[8,0px],[12,1px],[18,1px]]
+                        highway-dashed:
+                            visible: false
+                        highway-glow:
+                            visible: false
+
+                    highway-link-early:
+                        filter: { $zoom: { min: 13, max: 15 } }
+                        draw:
+                            lines:
+                                order: 352
+                            highway-dashed:
+                                visible: false
+                        highway-link-early-z17-18:
+                            filter: { $zoom: [17, 18]}
+                            draw:
+                                lines:
+                                    visible: false
+
+                highway-tunnel:
+                    filter: { is_tunnel: true, $zoom: { min: 13 } }
+                    draw:
+                        lines:
+                            color: [0.800,0.800,0.800]
+                            outline:
+                                color: [0.750,0.750,0.750]
+                        highway-dashed:
+                            style: highway-dashed-tunnel
+                            visible: true
+                            color: [0.000,0.000,0.000]
+                            outline:
+                                color: [0.900,0.900,0.900]
+                        highway-glow:
+                            visible: true
+                            color: [0.900,0.900,0.900]
+                    highway-tunnel-link:
+                        filter:
+                            is_link: true
+                        draw:
+                            highway-dashed:
+                                visible: false
+                            highway-glow:
+                                visible: false
 
             # Show 0 width roads one zoom before they have width, so they can scale up instead of popping in
             # highway-z17:
@@ -808,8 +855,17 @@ styles:
 
     highway-dashed:
         base: lines
-        dash: [5,5]
+        dash: [8,10]
         dash_background_color: [0.250,0.250,0.250]
+        shaders:
+            blocks:
+                position: |
+                    v_texcoord.y *= 4.;
+
+    highway-dashed-tunnel:
+        base: lines
+        dash: [8,10]
+        dash_background_color: [0.900,0.900,0.900]
         shaders:
             blocks:
                 position: |
