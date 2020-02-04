@@ -674,6 +674,31 @@ layers:
                 #                 size: [[15,10px],[18,14px]]
                 #                 stroke: { color: global.roads_text_stroke, width: 5px }
 
+        minor_road:
+            filter:
+                kind: minor_road
+                not: { kind_detail: service }
+                $zoom: { min: 8 }
+            draw:
+                lines:
+                    color: [[8, [0.900,0.900,0.900]], [16, [0.350,0.350,0.350]]]
+                    width: [[8, 0.5px], [15, 0.5px], [16, 3px], [18, 7px]]
+                    outline:
+                        color: [0.200,0.200,0.200]
+                        width: [[8, 0px], [12, 0px], [15, 0.5px], [18, 3px]]
+
+        service_road:
+            filter: { kind: minor_road, kind_detail: service }
+            draw:
+                lines:
+                    color: [[8, [0.900,0.900,0.900]], [16, [0.350,0.350,0.350]]]
+                    width: [[8, 0.5px], [15, 0.5px], [16, 2px], [18, 4px]]
+                    outline:
+                        color: [0.200,0.200,0.200]
+                        width: [[8, 0px], [12, 0px], [15, 0.5px], [18, 1px]]
+
+
+
     transit:
         data: { source: mapzen, layer: transit }
         transit-lines:
