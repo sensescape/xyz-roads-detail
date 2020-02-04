@@ -598,7 +598,6 @@ layers:
                         style: roads-dashed
                         order: global.order_add_1
                         color: [0.800,0.800,0.800]
-                        # color: [1.000,0.916,0.540]
                         width: [[8, 0.5px], [15, 0.5px], [16, 1.5px], [18, 2.5px]]
                 
                 routes:
@@ -607,6 +606,8 @@ layers:
                         lines:
                             color: [[8, [0.900,0.900,0.900]], [14, [0.300,0.300,0.300]]]
                             width: [[8, 0.5px], [15, 0.5px], [16, 3px], [18, 12px]]
+                        roads-dashed:
+                            color: [0.990,0.897,0.485]
                     tunnel:
                         filter: { is_tunnel: true, $zoom: { min: 13 } }
                         draw:
@@ -644,15 +645,20 @@ layers:
                         outline:
                             color: [0.200,0.200,0.200]
                             width: [[8, 0px], [12, 0.25px], [14, 0.5px], [18, 3px]]
-                        roads-dashed:
-                            visible: false
+                    roads-dashed:
+                        style: roads-dashed
+                        order: global.order_add_1
+                        color: [0.850,0.850,0.850]
+                        width: [[8, 0.5px], [15, 0.5px], [16, 1.25px], [18, 2px]]
+                        visible: false
                 routes:
                     filter: { ref: true, $zoom: { min: 12 } }
                     draw:
                         lines:
-                            color: [0.292,0.810,0.447]
-                            outline:
-                                color: [0.990,0.897,0.485]
+                            color: [[8, [0.900,0.900,0.900]], [14, [0.300,0.300,0.300]]]
+                        roads-dashed:
+                            visible: true
+
                     tunnel:
                         filter: { is_tunnel: true }
                         draw:
@@ -706,7 +712,7 @@ layers:
             draw:
                 lines:
                     color: [[8, [0.900,0.900,0.900]], [16, [0.350,0.350,0.350]]]
-                    width: [[8, 0.5px], [15, 0.5px], [16, 2px], [18, 4px]]
+                    width: [[8, 0.5px], [15, 0.5px], [16, 1.5px], [18, 3px]]
                     outline:
                         color: [0.200,0.200,0.200]
                         width: [[8, 0px], [12, 0px], [15, 0.5px], [18, 1px]]
@@ -763,10 +769,10 @@ layers:
                 draw:
                     lines:
                         style: lines
-                        dash: [0.25, 0.25]
+                        dash: [0.25, 0.35]
                         dash_background_color: [0.850,0.850,0.850]
                         color: [0.000,0.000,0.000]
-                        width: [[13, 0px], [15, 4px], [18, 8px]]
+                        width: [[13, 0px], [15, 2.5px], [18, 5px]]
 
     places:
         data: { source: mapzen, layer: places }
