@@ -676,34 +676,35 @@ layers:
 
     transit:
         data: { source: mapzen, layer: transit }
-        subway-light-rail:
-            filter: { not: { kind: [platform] }, $zoom: { min: 14 } }
+        transit-lines:
+            filter: { not: { kind: [platform] } }
             draw:
                 lines:
-                    order: function() { return feature.sort_rank || 275; }
+                    order: global.order
             railway:
                 filter: { kind: [railway,train] }
                 draw:
                     lines:
+                        style: lines
                         dash: [0.3, 1.25]
                         dash_background_color: [1.000,1.000,1.000]
                         color: [0.000,0.000,0.000]
-                        width: [[14, 0.5px], [16, 4px], [18, 11px]]
+                        width: [[13, 0px], [15, 5px], [18, 11px]]
                     rail-lines:
-                        order: 300
+                        order: global.order_add_1
                         style: rail-lines
                         color: [1.000,1.000,1.000]
                         width: 1px
                         outline:
-                            color: [0.250,0.250,0.250]
-                            width: [[14, 0px], [16, 0.5px], [18, 3px]]
-
-            # subway:
-            #     filter: { kind: subway }
-            #     draw:
-            #         lines:
-            #             color: global.lighter_color
-            #             width: [[14, 0.5px], [16, 1px], [18, 1px]]
+                            color: [0.550,0.550,0.550]
+                            width: [[13, 0px], [15, 1px], [18, 2px]]
+            subway:
+                filter: { kind: subway }
+                draw:
+                    lines:
+                        style: lines-glow
+                        color: [0.600,0.600,0.600]
+                        width: [[13, 5px], [18, 26px]]
             # light_rail:
             #     filter: { kind: [light_rail,tram], $zoom: { min: 15 } }
             #     draw:
@@ -1083,16 +1084,6 @@ styles:
         base: text
         blend: overlay
 
-    roads-glow:
-        base: lines
-        mix: [functions-zoom, lines-glow]
-        shaders:
-            defines:
-                ZOOM_START: 5.
-                ZOOM_END: 6.
-                GLOW_WIDTH: mix(1.,.45,zoom())
-                GLOW_BRIGHTNESS: zoom()*.12
-
     highway-dashed:
         base: lines
         dash: [8,10]
@@ -1204,11 +1195,11 @@ styles:
         base: lines
         mix: [block, functions-aastep]
         texcoords: true
-        blend: add
+        blend: overlay
         shaders:
             defines:
-                GLOW_WIDTH: 0.4
-                GLOW_BRIGHTNESS: .25
+                GLOW_WIDTH: 0.75
+                GLOW_BRIGHTNESS: .025
             blocks:
                 color: |
                     vec4 glow_tmp_color = color;
