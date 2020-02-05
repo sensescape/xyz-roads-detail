@@ -583,9 +583,14 @@ layers:
                 filter: { is_tunnel: true, $zoom: { min: 13 } }
                 draw:
                     lines:
-                        color: [1.000,1.000,0.000]
+                        color: [0.600,0.600,0.600]
                         outline:
-                            color: [1.000,0.000,0.000]
+                            color: [0.250,0.250,0.250]
+                    roads-dashed:
+                        style: roads-dashed
+                        order: global.order_add_1
+                        color: [0.600,0.600,0.600]
+                        width: [[8, 0.5px], [15, 0.5px], [16, 1.5px], [18, 2.5px]]
             secondary:
                 filter: { kind_detail: secondary }
                 draw:
