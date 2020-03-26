@@ -572,11 +572,13 @@ layers:
                         filter: { is_tunnel: true, $zoom: { min: 13 } }
                         draw:
                             lines:
-                                color: [0.600,0.600,0.600]
+                                color: [0.900,0.900,0.900]
+                                # color: [1.000,0.000,0.000]
                                 outline:
-                                    color: [0.250,0.250,0.250]
+                                    color: [0.750,0.750,0.750]
                             roads-dashed:
-                                color: [0.600,0.600,0.600]
+                                style: roads-dashed-tunnel
+                                color: [0.750,0.750,0.750]
                     # labels-trunk_primary-route-z14:
                     #     filter: { $zoom: { min: 14 } }
                     #     draw:
@@ -667,11 +669,12 @@ layers:
                         draw:
                             lines:
                                 # color: [1.000,0.000,0.000]
-                                color: [0.600,0.600,0.600]
+                                color: [0.900,0.900,0.900]
                                 outline:
-                                    color: [0.250,0.250,0.250]
+                                    color: [0.750,0.750,0.750]
                             roads-dashed:
-                                color: [0.600,0.600,0.600]
+                                style: roads-dashed-tunnel
+                                color: [0.750,0.750,0.750]
                     # labels-secondary-routes-z15-up:
                     #     filter: { $zoom: { min: 15 } }
                     #     draw:
