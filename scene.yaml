@@ -447,8 +447,7 @@ layers:
                     highway-glow:
                         style: lines
                         order: global.order_add_2
-                        color: [0.250,0.250,0.250]
-                        # color: [0.750,0.750,0.750]
+                        color: [0.300,0.300,0.300]
                         # color: [0.000,1.000,0.000]
                         width: [[11,0.5px],[13,2px],[15,9px],[16,14px],[18,18px]]
                         outline:
@@ -532,7 +531,6 @@ layers:
                 lines:
                     color: [1.000,1.000,1.000]
                     # color: [1.000,0.000,0.000]
-                    # color: [[8, [0.900,0.900,0.900]], [16, [0.250,0.250,0.250]]]
                     width: [[8, 0.5px], [15, 0.5px], [16, 1px]]
             trunk_primary:
                 filter: { kind_detail: [trunk, primary] }
@@ -546,11 +544,10 @@ layers:
                         outline:
                             color: [0.200,0.200,0.200]
                             # color: [1.000,0.000,0.000]
-                            width: [[8, 0px], [12, 0.25px], [14, 0.5px], [16, 1px], [18, 3px]]
+                            width: [[8, 0px], [12, 0.25px], [14, 0.5px], [16, 1.5px], [18, 3px]]
                     roads-dashed:
                         style: roads-dashed
                         order: global.order_add_1
-                        # color: [0.800,0.800,0.800]
                         color: [1.000,1.000,1.000]
                         # color: [1.000,0.000,0.000]
                         width: [[8, 0.5px], [15, 0.5px], [16, 1.25px], [18, 2.5px]]
@@ -642,7 +639,7 @@ layers:
                         outline:
                             color: [0.200,0.200,0.200]
                             # color: [1.000,0.000,0.000]
-                            width: [[8, 0px], [12, 0.25px], [14, 0.5px], [16, 1px], [18, 3px]]
+                            width: [[8, 0px], [12, 0.25px], [14, 0.5px], [16, 1.5px], [18, 3px]]
                     roads-dashed:
                         style: roads-dashed
                         order: global.order_add_1
@@ -658,7 +655,8 @@ layers:
                             # color: [1.000,0.000,0.000]
                             width: [[8, 0.5px], [15, 0.5px], [16, 3px], [18, 12px]]
                         roads-dashed:
-                            color: [0.850,0.850,0.850]
+                            color: [1.000,1.000,1.000]
+                            # color: [1.000,0.000,0.000]
                     tunnel:
                         filter: { is_tunnel: true, $zoom: { min: 13 } }
                         draw:
@@ -695,7 +693,6 @@ layers:
                     lines:
                         color: [1.000,1.000,1.000]
                         # color: [1.000,0.000,0.000]
-                        # color: [[8, [0.900,0.900,0.900]], [16, [0.350,0.350,0.350]]]
                         width: [[8, 0.5px], [15, 0.5px], [16, 3px], [18, 12px]]
                         outline:
                             color: [0.200,0.200,0.200]
@@ -708,7 +705,6 @@ layers:
                         lines:
                             color: [1.000,1.000,1.000]
                             # color: [1.000,0.000,0.000]
-                            # color: [[8, [0.900,0.900,0.900]], [14, [0.300,0.300,0.300]]]
                         roads-dashed:
                             visible: true
 
@@ -758,7 +754,6 @@ layers:
                 lines:
                     color: [1.000,1.000,1.000]
                     # color: [1.000,0.000,0.000]
-                    # color: [[8, [0.900,0.900,0.900]], [16, [0.350,0.350,0.350]]]
                     width: [[8, 0.5px], [15, 0.5px], [16, 3px], [18, 7px]]
                     outline:
                         color: [0.200,0.200,0.200]
@@ -770,7 +765,6 @@ layers:
                 lines:
                     color: [1.000,1.000,1.000]
                     # color: [1.000,0.000,0.000]
-                    # color: [[8, [0.900,0.900,0.900]], [16, [0.350,0.350,0.350]]]
                     width: [[8, 0.5px], [15, 0.5px], [16, 1.5px], [18, 3px]]
                     outline:
                         color: [0.200,0.200,0.200]
