@@ -380,18 +380,45 @@ layers:
                     outline:
                         order: global.order
 
+        natural_earth_roads:
+            filter:
+                - $zoom: { min: 5, max: 8 }
+            draw:
+                lines:
+                    color: [0.000,0.000,0.000]
+                    width: 1px
+
+            major_road:
+                filter: { kind: major_road }
+                draw:
+                    lines:
+                        color: [0.000,0.000,0.000]
+                        width: 0.5px
+
+            minor_road:
+                filter: { kind: minor_road }
+                draw:
+                    lines:
+                        color: [0.000,0.000,0.000]
+                        width: 0.5px
+            ferry:
+                filter: { kind: ferry }
+                draw:
+                    lines:
+                        visible: false
+
         highway:
             filter:
                 kind: highway
                 $zoom: { min: 8 }
-            # highway-z8:
-            #     filter:
-            #         $zoom: { min: 8, max: 11 }
-            #     draw:
-            #         lines:
-            #             color: [0.350,0.350,0.350]
-            #             # color: [1.000,0.000,0.000]
-            #             width: [[8,1px],[11,2px]]
+
+            highway-z8:
+                filter:
+                    $zoom: { min: 8, max: 11 }
+                draw:
+                    lines:
+                        color: [0.000,0.000,0.000]
+                        width: 1px
 
             highway-z11:
                 filter:
